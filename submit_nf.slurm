@@ -21,37 +21,37 @@ start=`date +%s`
 # NEXTFLOW=/project/isu_gif_vrsc/programs/nextflow
 
 # == Ceres HPC
-# module load nextflow
-# NEXTFLOW=nextflow
+module load nextflow
+NEXTFLOW=nextflow
 
 # == Nova HPC
-module load gcc/7.3.0-xegsmw4 nextflow
-module load singularity
-NEXTFLOW=nextflow
+#module load gcc/7.3.0-xegsmw4 nextflow
+#module load singularity
+#NEXTFLOW=nextflow
 
 # === Set working directory and in/out variables
 cd ${SLURM_SUBMIT_DIR}
 
 # === Main Program
 
-# Method 1: Use --reads
-${NEXTFLOW} run main.nf \
-  --genome "test-data/ref/b73_chr1_150000001-151000000.fasta" \
-  --reads "test-data/fastq/*_{R1,R2}.fastq.gz" \
-  --queueSize 25 \
-  -profile slurm,singularity \
-  -resume
-  #--account isu_gif_vrsc       #<= add this to Atlas
+## Method 1: Use --reads
+#${NEXTFLOW} run main.nf \
+#  --genome "test-data/ref/b73_chr1_150000001-151000000.fasta" \
+#  --reads "test-data/fastq/*_{R1,R2}.fastq.gz" \
+#  --queueSize 25 \
+#  -profile slurm,singularity \
+#  -resume
+#  #--account isu_gif_vrsc       #<= add this to Atlas
 
 # Method 2: Use --reads_file
-# ${NEXTFLOW} run main.nf \
-#   --genome "test-data/ref/b73_chr1_150000001-151000000.fasta" \
-#   --reads_file read-path.txt \
-#   --queueSize 50 \
-#   --account isu_gif_vrsc \
-#   --outdir "GATK_Results" \
-#   -profile slurm,singularity \
-#   -resume
+${NEXTFLOW} run main.nf \
+   --genome "test-data/ref/b73_chr1_150000001-151000000.fasta" \
+   --reads_file read-path.txt \
+   --queueSize 50 \
+   --account maizegdb \
+   --outdir "GATK_Results" \
+   -profile maize_ceres,singularity \
+   -resume
 
 end=`date +%s`
 

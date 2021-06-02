@@ -78,7 +78,7 @@ process FastqToSam {
 
   """
   #! /usr/bin/env bash
-  ${gatk_app} FastqToSam \
+  $gatk_app --java-options \"-Xmx80g -XX:+UseParallelGC\"  FastqToSam \
     --FASTQ ${readpairs.get(0)} \
     --FASTQ2 ${readpairs.get(1)} \
     --OUTPUT ${i_readname}.bam \
@@ -106,7 +106,7 @@ process MarkIlluminaAdapters {
   script:
   """
   #! /usr/bin/env bash
-  $gatk_app MarkIlluminaAdapters \
+  $gatk_app --java-options \"-Xmx80g -XX:+UseParallelGC\"  MarkIlluminaAdapters \
     --INPUT $bam \
     --OUTPUT ${bam.simpleName}_marked.bam \
     --METRICS ${bam.simpleName}_marked_metrics.txt \
@@ -129,7 +129,7 @@ process SamToFastq {
   script:
   """
   #! /usr/bin/env bash
-  $gatk_app SamToFastq \
+  $gatk_app --java-options \"-Xmx80g -XX:+UseParallelGC\"  SamToFastq \
     --INPUT $bam \
     --FASTQ ${bam.simpleName}_newR1.fq \
     --SECOND_END_FASTQ ${bam.simpleName}_newR2.fq \
@@ -179,6 +179,7 @@ process bwamem2_mem {
      $samtools_app view --threads ${threads} -bS - > ${readname}_mapped.bam
   """
 }
+# $SLURM_JOB_CPUS_PER_NODE=4
 
 process CreateSequenceDictionary {
   tag "${genome_fasta.simpleName}"
@@ -214,7 +215,7 @@ process MergeBamAlignment {
   script:
   """
   #! /usr/bin/env bash
-  $gatk_app MergeBamAlignment \
+  $gatk_app --java-options \"-Xmx80g -XX:+UseParallelGC\" MergeBamAlignment \
   --REFERENCE_SEQUENCE $genome_fasta \
   --UNMAPPED_BAM ${read_unmapped} \
   --ALIGNED_BAM ${read_mapped} \
