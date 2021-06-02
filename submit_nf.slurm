@@ -1,5 +1,6 @@
 #! /usr/bin/env bash
 #SBATCH --nodes=1
+#SBATCH --account=maizegdb
 #SBATCH --ntasks-per-node=4
 #SBATCH --time=24:00:00
 #SBATCH --job-name=NF_GATK
